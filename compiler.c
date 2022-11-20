@@ -42,11 +42,11 @@ typedef struct {
 
 Parser parser;
 
-Chunk *compilingChunk;
+Chunk* compilingChunk;
 
-static Chunk *currentChunk() { return compilingChunk; }
+static Chunk* currentChunk() { return compilingChunk; }
 
-static void errorAt(Token *token, const char *message) {
+static void errorAt(Token* token, const char* message) {
   if (parser.panicMode)
     return;
   parser.panicMode = true;
@@ -64,9 +64,9 @@ static void errorAt(Token *token, const char *message) {
   parser.hadError = true;
 }
 
-static void error(const char *message) { errorAt(&parser.previous, message); }
+static void error(const char* message) { errorAt(&parser.previous, message); }
 
-static void errorAtCurrent(const char *message) {
+static void errorAtCurrent(const char* message) {
   errorAt(&parser.current, message);
 }
 
@@ -82,7 +82,7 @@ static void advance() {
   }
 }
 
-static void consume(TokenType type, const char *message) {
+static void consume(TokenType type, const char* message) {
   if (parser.current.type == type) {
     advance();
     return;
@@ -126,7 +126,7 @@ static void endCompiler() {
 }
 
 static void expression();
-static ParseRule *getRule(TokenType type);
+static ParseRule* getRule(TokenType type);
 static void parsePrecedence(Precedence precedence);
 
 static void binary() {
@@ -134,7 +134,7 @@ static void binary() {
   TokenType operatorType = parser.previous.type;
 
   // Compile the right operand.
-  ParseRule *rule = getRule(operatorType);
+  ParseRule* rule = getRule(operatorType);
   parsePrecedence((Precedence)(rule->precedence + 1));
 
   // Emit the operator instruction.
@@ -284,11 +284,11 @@ static void parsePrecedence(Precedence precedence) {
   }
 }
 
-static ParseRule *getRule(TokenType type) { return &rules[type]; }
+static ParseRule* getRule(TokenType type) { return &rules[type]; }
 
 static void expression() { parsePrecedence(PREC_ASSIGNMENT); }
 
-bool compile(const char *source, Chunk *chunk) {
+bool compile(const char* source, Chunk* chunk) {
   initScanner(source);
   compilingChunk = chunk;
 

@@ -13,7 +13,7 @@ VM vm;
 
 static void resetStack() { vm.stackTop = vm.stack; }
 
-static void runtimeError(const char *format, ...) {
+static void runtimeError(const char* format, ...) {
   va_list args;
   va_start(args, format);
   vfprintf(stderr, format, args);
@@ -51,16 +51,16 @@ static bool isFalsey(Value value) {
 }
 
 static void concatenate() {
-  ObjString *b = AS_STRING(pop());
-  ObjString *a = AS_STRING(pop());
+  ObjString* b = AS_STRING(pop());
+  ObjString* a = AS_STRING(pop());
 
   int length  = a->length + b->length;
-  char *chars = ALLOCATE(char, length + 1);
+  char* chars = ALLOCATE(char, length + 1);
   memcpy(chars, a->chars, a->length);
   memcpy(chars + a->length, b->chars, b->length);
   chars[length] = '\0';
 
-  ObjString *result = takeString(chars, length);
+  ObjString* result = takeString(chars, length);
   push(OBJ_VAL(result));
 }
 
@@ -82,7 +82,7 @@ static InterpretResult run() {
   for (;;) {
 #ifdef DEBUG_TRACE_EXECUTION
     printf("          ");
-    for (Value *slot = vm.stack; slot < vm.stackTop; slot++) {
+    for (Value* slot = vm.stack; slot < vm.stackTop; slot++) {
       printf("[ ");
       printValue(*slot);
       printf(" ]");
@@ -165,7 +165,7 @@ static InterpretResult run() {
 #undef BINARY_OP
 }
 
-InterpretResult interpret(const char *source) {
+InterpretResult interpret(const char* source) {
   Chunk chunk;
   initChunk(&chunk);
 

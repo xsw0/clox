@@ -5,13 +5,13 @@
 #include "object.h"
 #include "value.h"
 
-void initValueArray(ValueArray *array) {
+void initValueArray(ValueArray* array) {
   array->values   = NULL;
   array->capacity = 0;
   array->count    = 0;
 }
 
-void writeValueArray(ValueArray *array, Value value) {
+void writeValueArray(ValueArray* array, Value value) {
   if (array->capacity < array->count + 1) {
     int oldCapacity = array->capacity;
     array->capacity = GROW_CAPACITY(oldCapacity);
@@ -23,7 +23,7 @@ void writeValueArray(ValueArray *array, Value value) {
   array->count++;
 }
 
-void freeValueArray(ValueArray *array) {
+void freeValueArray(ValueArray* array) {
   FREE_ARRAY(Value, array->values, array->capacity);
   initValueArray(array);
 }
@@ -57,8 +57,8 @@ bool valuesEqual(Value a, Value b) {
   case VAL_NUMBER:
     return AS_NUMBER(a) == AS_NUMBER(b);
   case VAL_OBJ: {
-    ObjString *aString = AS_STRING(a);
-    ObjString *bString = AS_STRING(b);
+    ObjString* aString = AS_STRING(a);
+    ObjString* bString = AS_STRING(b);
     return aString->length == bString->length &&
            memcmp(aString->chars, bString->chars, aString->length) == 0;
   }
