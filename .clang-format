@@ -1,9 +1,6 @@
 ---
 Language: Cpp
 BasedOnStyle: LLVM
-AlignConsecutiveAssignments: AcrossComments
-AlignConsecutiveBitFields: AcrossComments
 ContinuationIndentWidth: 2
 PointerAlignment: Left
 ...
-
