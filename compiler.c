@@ -261,6 +261,12 @@ static ParseRule* getRule(TokenType type) { return &rules[type]; }
 
 static void expression() { parsePrecedence(PREC_ASSIGNMENT); }
 
+static void expressionStatement() {
+  expression();
+  consume(TOKEN_SEMICOLON, "Expect ';' after expression.");
+  emitByte(OP_POP);
+}
+
 static void printStatement() {
   expression();
   consume(TOKEN_SEMICOLON, "Expect ';' after value.");
@@ -270,7 +276,11 @@ static void printStatement() {
 static void declaration() { statement(); }
 
 static void statement() {
-  if (match(TOKEN_PRINT)) { printStatement(); }
+  if (match(TOKEN_PRINT)) {
+    printStatement();
+  } else {
+    expressionStatement();
+  }
 }
 
 bool compile(const char* source, Chunk* chunk) {
